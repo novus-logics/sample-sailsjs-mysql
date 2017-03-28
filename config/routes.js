@@ -46,8 +46,9 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  'GET /api/login': 'UserController.login',
+  'POST /api/login': 'UserController.login',
   'GET /api/dashboard': 'DashboardController.getDashboardData',
-  'GET /api/dashboard/other': 'DashboardController.getOtherDashboardData'
+  'GET /api/dashboard/other': 'DashboardController.getOtherDashboardData',
+  'GET /api/insert-sample-data': 'SampleDataInsertionController.insertSampleData'
 
 };
