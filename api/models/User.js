@@ -24,13 +24,16 @@ module.exports = {
   },
   login: function (credentials) {
     return new Promise(function (resolve, reject) {
-      Users.findone({
-        userId: credentials.userId,
+      Users.findOne({
+        uuid: credentials.uuid,
         password: credentials.password
       }).exec(function (err, record) {
         if(err) {
           reject(err);
         } else {
+          if (!record) {
+            reject(new Error("User not found."))
+          }
           resolve(record)
         }
       });
