@@ -42,7 +42,7 @@ module.exports.connections = {
   ***************************************************************************/
   someMysqlServer: {
     adapter: 'sails-mysql',
-    host: '127.0.0.1',
+    host: 'localhost',
     user: 'root', //optional
     password: 'novus', //optional
     database: 'novus_sample-sailsjs-mysql' //optional

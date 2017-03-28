@@ -20,9 +20,9 @@ module.exports = {
     var labels = ['Other', 'Search engines', 'Referral Traffic', 'Direct Traffic', 'Ad Campaigns'];
     var moment = require('moment');
 
-    for(var i=1; i <=1000; i++) {
+    for(var i=1; i <=2000; i++) {
       var label = labels[Math.floor(Math.random()*labels.length)];
-      var value = Math.floor(Math.random() * 300);
+      var value = Math.floor(Math.random() * 100);
       var date = randomDate(moment(moment().subtract(1, 'y')).toDate(), moment().toDate());
 
       var insertObj = {
