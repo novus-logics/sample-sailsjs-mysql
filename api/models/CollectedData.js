@@ -7,7 +7,18 @@
 
 module.exports = {
   attributes: {
-
+    label: {
+      type: 'string',
+      required: true
+    },
+    value: {
+      type: 'float',
+      required: true
+    },
+    date: {
+      type: 'date',
+      required: true
+    }
   }
 };
 
