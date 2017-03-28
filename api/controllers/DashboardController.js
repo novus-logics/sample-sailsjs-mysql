@@ -44,8 +44,7 @@ module.exports = {
   getDashboardData: function(req, res) {
     CollectedData.getAllData().then(function (data) {
       return res.json({
-        trafficData: data.trafficData,
-        sampleBarData: data.barLineData
+        trafficData: data.trafficData
       });
     });
   },
@@ -53,6 +52,7 @@ module.exports = {
   getOtherDashboardData: function(req, res) {
     CollectedData.getAllData().then(function (data) {
       return res.json({
+        sampleBarData: data.barLineData,
         simpleLineData: data.barLineData,
         simplePieData: data.pieChartData
       });

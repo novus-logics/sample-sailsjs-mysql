@@ -46,13 +46,13 @@ module.exports = {
         CollectedData.query("SELECT SUM(value) as value, MONTH(date) as monthId FROM `collecteddata` GROUP BY MONTH(date) ORDER BY MONTH(date)", [], function (err, result) {
           if(err) { reject(err)}
           var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-          dataToReturn.barLineData.labels = months
-          dataToReturn.barLineData.series = result.map(function (r, index) {
+          dataToReturn.barLineData.labels = months;
+          dataToReturn.barLineData.series.push(result.map(function (r, index) {
             if(index+1 == parseInt(r.monthId)) {
               return r.value
             }
             return 0;
-          });
+          }));
           resolve(true)
         })
       }),
