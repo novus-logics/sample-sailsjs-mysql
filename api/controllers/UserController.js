@@ -9,16 +9,16 @@ module.exports = {
   login: function(req, res) {
     Users.login(req.body).then(function (success) {
       var jwt = require('jwt-simple');
-      var payload = { id: success.id };
+      var payload = {uuid: success.uuid};
       var secret = 'mY_aw3s0Me-aPp_s3Cr3T';
       var token = jwt.encode(payload, secret);
 
       res.send({
-        user: success,
+        user: success.name,
         token: token
       })
     }, function (err) {
-      return res.status(400).send(err.message)
+      return res.serverError(err)
     })
   }
 };
