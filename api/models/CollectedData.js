@@ -21,7 +21,18 @@ module.exports = {
       required: true
     }
   },
-  getAllData: function () {
+  getAllData: function (dates) {
+
+    var where = ["1=1"];
+
+    if(dates.start_date) {
+      where.push("`date` >= '"+dates.start_date+"'")
+    }
+
+    if(dates.end_date) {
+      where.push("`date` <= '"+dates.end_date+"'")
+    }
+
     var dataToReturn = {
       trafficData: [],
       barLineData: {
@@ -32,10 +43,13 @@ module.exports = {
         series: []
       }
     };
+    var condition = "WHERE "+where.join(" AND ");
+
+    console.log("SELECT SUM(value) as value, label FROM `collecteddata` "+condition+"GROUP BY label");
 
     var promises = [
       new Promise(function (resolve, reject) {
-        CollectedData.query("SELECT SUM(value) as value, label FROM `collecteddata` GROUP BY label", [], function (err, result) {
+        CollectedData.query("SELECT SUM(value) as value, label FROM `collecteddata` "+condition+" GROUP BY label", [], function (err, result) {
           if(err) { reject(err)}
           dataToReturn.trafficData = result;
           resolve(true)
@@ -43,7 +57,7 @@ module.exports = {
       }),
 
       new Promise(function (resolve, reject) {
-        CollectedData.query("SELECT SUM(value) as value, MONTH(date) as monthId FROM `collecteddata` GROUP BY MONTH(date) ORDER BY MONTH(date)", [], function (err, result) {
+        CollectedData.query("SELECT SUM(value) as value, MONTH(date) as monthId FROM `collecteddata` "+condition+" GROUP BY MONTH(date) ORDER BY MONTH(date)", [], function (err, result) {
           if(err) { reject(err)}
           var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
           dataToReturn.barLineData.labels = months;
@@ -58,7 +72,7 @@ module.exports = {
       }),
 
       new Promise(function (resolve, reject) {
-        CollectedData.query("SELECT SUM(value) as value, MONTH(date) as monthId FROM `collecteddata` GROUP BY MONTH(date) ORDER BY MONTH(date)", [], function (err, result) {
+        CollectedData.query("SELECT SUM(value) as value, MONTH(date) as monthId FROM `collecteddata` "+condition+" GROUP BY MONTH(date) ORDER BY MONTH(date)", [], function (err, result) {
           if(err) { reject(err)}
           dataToReturn.pieChartData.series = result.map(function (r, index) {
               return r.value

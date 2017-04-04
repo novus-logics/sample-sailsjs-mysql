@@ -42,7 +42,13 @@ var DATA = {
 module.exports = {
 
   getDashboardData: function(req, res) {
-    CollectedData.getAllData().then(function (data) {
+
+    var dates = {
+      start_date: req.param('start_date'),
+      end_date: req.param('end_date')
+    };
+
+    CollectedData.getAllData(dates).then(function (data) {
       return res.json({
         trafficData: data.trafficData
       });
@@ -50,7 +56,12 @@ module.exports = {
   },
 
   getOtherDashboardData: function(req, res) {
-    CollectedData.getAllData().then(function (data) {
+    var dates = {
+      start_date: req.param('start_date'),
+      end_date: req.param('end_date')
+    };
+
+    CollectedData.getAllData(dates).then(function (data) {
       return res.json({
         sampleBarData: data.barLineData,
         simpleLineData: data.barLineData,
