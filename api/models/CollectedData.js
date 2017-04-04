@@ -23,14 +23,10 @@ module.exports = {
   },
   getAllData: function (dates) {
 
-    var where = ["1=1"];
+    var condition = " ";
 
-    if(dates.start_date) {
-      where.push("`date` >= '"+dates.start_date+"'")
-    }
-
-    if(dates.end_date) {
-      where.push("`date` <= '"+dates.end_date+"'")
+    if(dates.start_date && dates.end_date) {
+      condition = " WHERE `date` BETWEEN '" + dates.start_date + "' AND '" + dates.end_date + "' ";
     }
 
     var dataToReturn = {
@@ -43,9 +39,6 @@ module.exports = {
         series: []
       }
     };
-    var condition = "WHERE "+where.join(" AND ");
-
-    console.log("SELECT SUM(value) as value, label FROM `collecteddata` "+condition+"GROUP BY label");
 
     var promises = [
       new Promise(function (resolve, reject) {
